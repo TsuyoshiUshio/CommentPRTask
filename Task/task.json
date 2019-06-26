@@ -9,7 +9,7 @@
     "version": {
         "Major": 0,
         "Minor": 1,
-        "Patch": 0
+        "Patch": 6
     },
     "instanceNameFormat": "Create PR Comment",
     "inputs": [
@@ -24,7 +24,10 @@
     ],
     "execution": {
         "Node": {
-            "target": ".\task.js"
+            "target": "task.js"
         }
+    }, 
+    "messages": {
+        "FailToCreateComment": "Failed to create a comment. For more details: %s"
     }
 }

@@ -11,16 +11,23 @@ class CreatePRCommentTask {
     public async run(): Promise<void> {
       try {
 
-        let comment = VariableResolver.resolveVariables(tl.getInput('Comment', true));
-
-        let auth = tl.getEndpointAuthorization('SystemVssConnection', false);
-        let credHandler = wa.getBearerHandler(auth.parameters['AccessToken']);
+        let commentOriginal = tl.getInput('Comment', true);
+        tl.debug("commentOriginal:" + commentOriginal);
+        let comment = VariableResolver.resolveVariables(commentOriginal);
+        tl.debug("comment:" + comment);
+     //   let auth = tl.getEndpointAuthorization('SystemVssConnection', false);
+     //   let credHandler = wa.getBearerHandler(auth.parameters['AccessToken']);
+        let pat:string = tl.getVariable("AzureDevOps.Pat");
+        let credHandler = wa.getPersonalAccessTokenHandler(pat);
+        
         let connection = new wa.WebApi(tl.getVariable('System.TeamFoundationCollectionUri'), credHandler);
         let client = await connection.getGitApi();
-
+        let commentObject = <GitInterfaces.Comment> {
+            content : comment            
+        };
         let thread : GitInterfaces.GitPullRequestCommentThread = <GitInterfaces.GitPullRequestCommentThread> {
             comments: [
-                comment
+                commentObject
             ]
         }
         if (process.env.SYSTEM_PULLREQUEST_PULLREQUESTID === undefined) {
@@ -32,7 +39,7 @@ class CreatePRCommentTask {
         // TODO: We need to supress the comment if it is already created. 
         let createdThread = await client.createThread(thread, repositoryId, pullRequestId);
       } catch (e) {
-
+            throw new Error(tl.loc('FailToCreateComment', e));
       } 
 
     }
