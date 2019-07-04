@@ -20,6 +20,7 @@ Fossa reports a <a href="https://dev.azure.com/csedevops/DevSecOps/_workitems/ed
 
 # TODO 
 
-The Personal Access Token configuration will move to the service configration in the near future. 
+* The Personal Access Token configuration will move to the service configration in the near future. 
+* Need to refactor and add tests for production ready
 
 
