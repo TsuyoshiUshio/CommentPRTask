@@ -4,7 +4,7 @@ import * as azdev from "azure-devops-node-api";
 import * as wa from "azure-devops-node-api/WebApi";
 import * as GitApi from "azure-devops-node-api/GitApi";
 import * as GitInterfaces from "azure-devops-node-api/interfaces/GitInterfaces";
-import VariableResolver from './VariableResolver';
+import VariableResolver from './variableresolver';
 
 class CreatePRCommentTask {
 

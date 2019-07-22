@@ -6,10 +6,10 @@
     "publisher": "DevSecOps",
     "targets": [
         {
-            "id": "Microsoft.VisualStudio.Services"
+            "id": "Microsoft.VisualStudio.Services.Cloud"
         }
     ],    
-    "description": "Tools for building/releasing with Fabrikam. Includes one build/release task.",
+    "description": "Create Pull Request Comment",
     "categories": [
         "Azure Pipelines"
     ],
@@ -18,10 +18,45 @@
     },
     "files": [
         {
-            "path": "buildAndReleaseTask"
+            "path": "Task"
         }
     ],
     "contributions": [
+        {
+            "id": "service-endpoint",
+            "description": "Service Endpoint type for k8s connection",
+            "type": "ms.vss-endpoint.service-endpoint-type",
+            "targets": [ "ms.vss-endpoint.endpoint-types" ],
+            "properties": {
+              "name": "AzureDevOps",
+              "displayName": "AzureDevOps PAT",
+              "config": {
+                "type": "string",
+                "description": "Put your Personal Access Token of the Azure DevOps",
+                "required": true
+              },
+                      "authenticationSchemes": [
+                {
+                  "type": "ms.vss-endpoint.endpoint-auth-scheme-none",
+                  "inputDescriptors": [
+                    {
+                      "id": "pat",
+                      "name": "PAT",
+                      "description": "Azure DevOps Personal Access Token here.",
+                      "inputMode": "passwordbox",
+                      "isConfidential": true,
+                      "validation": {
+                        "isRequired": true,
+                        "dataType": "string"
+                      }
+                    }
+                  ]
+                }
+      
+              ],
+              "helpMarkDown": "<a href=\"https://github.com/TsuyoshiUshio/KubernetesTask\" target=\"_blank\"><b>Learn More</b></a>"
+            }
+          },
         {
             "id": "custom-build-release-task",
             "type": "ms.vss-distributed-task.task",
@@ -29,7 +64,7 @@
                 "ms.vss-distributed-task.tasks"
             ],
             "properties": {
-                "name": "buildAndReleaseTask"
+                "name": "Task"
             }
         }
     ]
