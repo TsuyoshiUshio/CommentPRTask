@@ -3,7 +3,7 @@
     "id": "create-pr-comment-task",
     "name": "Create Pull Request Comment",
     "version": "0.0.1",
-    "publisher": "DevSecOps",
+    "publisher": "CSE-DevOps",
     "targets": [
         {
             "id": "Microsoft.VisualStudio.Services.Cloud"
@@ -24,11 +24,11 @@
     "contributions": [
         {
             "id": "service-endpoint",
-            "description": "Service Endpoint type for k8s connection",
+            "description": "Service Endpoint type for Azure DevOps PAT",
             "type": "ms.vss-endpoint.service-endpoint-type",
             "targets": [ "ms.vss-endpoint.endpoint-types" ],
             "properties": {
-              "name": "AzureDevOps",
+              "name": "azuredevops",
               "displayName": "AzureDevOps PAT",
               "config": {
                 "type": "string",

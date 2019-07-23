@@ -17,7 +17,9 @@ class CreatePRCommentTask {
         tl.debug("comment:" + comment);
         // let auth = tl.getEndpointAuthorization('SystemVssConnection', false);
         // let credHandler = wa.getBearerHandler(auth.parameters['AccessToken']);
-        let pat:string = tl.getVariable("AzureDevOps.Pat");
+        // let pat:string = tl.getVariable("AzureDevOps.Pat");
+        let patService = tl.getInput('AzureDevOpsService');
+        let pat:string = tl.getEndpointAuthorizationParameter(patService, 'pat', false);
         // let accessToken:string = tl.getVariable("System.AccessToken");
         
         // let credHandler = wa.getBearerHandler(accessToken);
