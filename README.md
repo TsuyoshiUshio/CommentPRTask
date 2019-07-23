@@ -40,5 +40,5 @@ CredScan reports a <a href="https://dev.azure.com/csedevops/DevSecOps/_workitems
 
 # Contribution
 
-For more details [here](Contribution.md)
+For more details [here](Contribution.md).
 
