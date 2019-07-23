@@ -13,6 +13,14 @@
     "categories": [
         "Azure Pipelines"
     ],
+    "tags": [
+      "AzureDevOps"
+    ],
+    "content": {
+      "details": {
+        "path": "README.md"
+      }
+    },
     "icons": {
         "default": "images/extension-icon.png"        
     },
@@ -54,7 +62,7 @@
                 }
       
               ],
-              "helpMarkDown": "<a href=\"https://github.com/TsuyoshiUshio/KubernetesTask\" target=\"_blank\"><b>Learn More</b></a>"
+              "helpMarkDown": "Create a Pull Request Comment."
             }
           },
         {
