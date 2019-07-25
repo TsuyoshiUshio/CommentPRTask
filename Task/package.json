@@ -7,7 +7,7 @@
     "compile": "tsc -p .",
     "deploy": "Script\\deploy.bat",
     "build": "Script\\build.bat",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "tsc -p . & mocha ./Test/L0.js"
   },
   "author": "DevSecOps",
   "license": "MIT",
@@ -16,10 +16,15 @@
     "azure-pipelines-task-lib": "^2.8.0"
   },
   "devDependencies": {
+    "@types/chai": "^4.1.7",
     "@types/mocha": "^5.2.7",
     "@types/node": "^12.0.10",
     "@types/q": "^1.5.2",
+    "@types/sinon": "^7.0.13",
+    "chai": "^4.2.0",
     "mocha": "^6.2.0",
-    "mocha-junit-reporter": "^1.23.1"
+    "mocha-junit-reporter": "^1.23.1",
+    "rewiremock": "^3.13.7",
+    "sinon": "^7.3.2"
   }
 }

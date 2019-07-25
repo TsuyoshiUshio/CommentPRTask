@@ -2,12 +2,29 @@ import * as tl from 'azure-pipelines-task-lib';
 import * as wa from "azure-devops-node-api/WebApi";
 import * as GitInterfaces from "azure-devops-node-api/interfaces/GitInterfaces";
 import VariableResolver from './variableresolver';
+import { IGitApi, GitApi } from 'azure-devops-node-api/GitApi';
 
-class CreatePRCommentTask {
+export interface IClientFactory {
+    create(pat:string): Promise<IGitApi>;
+}
 
+class ClientFactory implements IClientFactory {
+    public async create(pat:string): Promise<IGitApi> {
+        let credHandler = wa.getPersonalAccessTokenHandler(pat);
+        let connection = new wa.WebApi(tl.getVariable('System.TeamFoundationCollectionUri'), credHandler);
+        return await connection.getGitApi();
+    }
+}
+
+export class CreatePRCommentTask {
+    factory: IClientFactory;
+
+    constructor(clientFactory: IClientFactory) {
+        this.factory = clientFactory;
+    }
+     
     public async run(): Promise<void> {
       try {
-
         let commentOriginal = tl.getInput('Comment', true);
         tl.debug("commentOriginal:" + commentOriginal);
         let comment = VariableResolver.resolveVariables(commentOriginal);
@@ -16,10 +33,8 @@ class CreatePRCommentTask {
         let patService = tl.getInput('AzureDevOpsService');
         let pat:string = tl.getEndpointAuthorizationParameter(patService, 'pat', false);
 
-        let credHandler = wa.getPersonalAccessTokenHandler(pat);
-        let connection = new wa.WebApi(tl.getVariable('System.TeamFoundationCollectionUri'), credHandler);
+        let client = await this.factory.create(pat);
 
-        let client = await connection.getGitApi();
         let commentObject = <GitInterfaces.Comment> {
             content : comment            
         };
@@ -59,4 +74,5 @@ class CreatePRCommentTask {
     }
 }
 
-new CreatePRCommentTask().run();
+
+new CreatePRCommentTask(new ClientFactory()).run();
