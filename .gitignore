@@ -4,3 +4,6 @@ node_modules
 Task/package.json
 *.map
 .vscode
+test-results.xml
+.nyc_output
+.coverage_output

@@ -24,7 +24,7 @@ rewiremock('azure-pipelines-task-lib')
 
 rewiremock.enable();
 
-import { IClientFactory, CreatePRCommentTask }  from '../task';
+import { IClientFactory, CreatePRCommentTask }  from '../Src/task';
 
 class ClientFactoryMock implements IClientFactory {
   called: boolean = false;

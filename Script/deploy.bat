@@ -1,6 +1,6 @@
 call Script\compile.bat
 
-copy *.js Task
+copy Src\*.js Task
 copy package.json Task
 
 IF EXIST Task\node_modules (
