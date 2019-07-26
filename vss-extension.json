@@ -2,26 +2,69 @@
     "manifestVersion": 1,
     "id": "create-pr-comment-task",
     "name": "Create Pull Request Comment",
-    "version": "0.0.1",
-    "publisher": "DevSecOps",
+    "version": "0.0.2",
+    "publisher": "CSE-DevOps",
     "targets": [
         {
-            "id": "Microsoft.VisualStudio.Services"
+            "id": "Microsoft.VisualStudio.Services.Cloud"
         }
     ],    
-    "description": "Tools for building/releasing with Fabrikam. Includes one build/release task.",
+    "description": "Create Pull Request Comment",
     "categories": [
         "Azure Pipelines"
     ],
+    "tags": [
+      "AzureDevOps"
+    ],
+    "content": {
+      "details": {
+        "path": "README.md"
+      }
+    },
     "icons": {
         "default": "images/extension-icon.png"        
     },
     "files": [
         {
-            "path": "buildAndReleaseTask"
+            "path": "Task"
         }
     ],
     "contributions": [
+        {
+            "id": "service-endpoint",
+            "description": "Service Endpoint type for Azure DevOps PAT",
+            "type": "ms.vss-endpoint.service-endpoint-type",
+            "targets": [ "ms.vss-endpoint.endpoint-types" ],
+            "properties": {
+              "name": "azuredevops",
+              "displayName": "AzureDevOps PAT",
+              "config": {
+                "type": "string",
+                "description": "Put your Personal Access Token of the Azure DevOps",
+                "required": true
+              },
+                      "authenticationSchemes": [
+                {
+                  "type": "ms.vss-endpoint.endpoint-auth-scheme-none",
+                  "inputDescriptors": [
+                    {
+                      "id": "pat",
+                      "name": "PAT",
+                      "description": "Azure DevOps Personal Access Token here.",
+                      "inputMode": "passwordbox",
+                      "isConfidential": true,
+                      "validation": {
+                        "isRequired": true,
+                        "dataType": "string"
+                      }
+                    }
+                  ]
+                }
+      
+              ],
+              "helpMarkDown": "Create a Pull Request Comment."
+            }
+          },
         {
             "id": "custom-build-release-task",
             "type": "ms.vss-distributed-task.task",
@@ -29,7 +72,7 @@
                 "ms.vss-distributed-task.tasks"
             ],
             "properties": {
-                "name": "buildAndReleaseTask"
+                "name": "Task"
             }
         }
     ]

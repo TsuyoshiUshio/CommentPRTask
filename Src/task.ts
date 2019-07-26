@@ -1,30 +1,40 @@
 import * as tl from 'azure-pipelines-task-lib';
-import { join } from 'path';
-import * as azdev from "azure-devops-node-api";
 import * as wa from "azure-devops-node-api/WebApi";
-import * as GitApi from "azure-devops-node-api/GitApi";
 import * as GitInterfaces from "azure-devops-node-api/interfaces/GitInterfaces";
-import VariableResolver from './VariableResolver';
+import VariableResolver from './variableresolver';
+import { IGitApi, GitApi } from 'azure-devops-node-api/GitApi';
 
-class CreatePRCommentTask {
+export interface IClientFactory {
+    create(pat:string): Promise<IGitApi>;
+}
 
+class ClientFactory implements IClientFactory {
+    public async create(pat:string): Promise<IGitApi> {
+        let credHandler = wa.getPersonalAccessTokenHandler(pat);
+        let connection = new wa.WebApi(tl.getVariable('System.TeamFoundationCollectionUri'), credHandler);
+        return await connection.getGitApi();
+    }
+}
+
+export class CreatePRCommentTask {
+    factory: IClientFactory;
+
+    constructor(clientFactory: IClientFactory) {
+        this.factory = clientFactory;
+    }
+     
     public async run(): Promise<void> {
       try {
-
         let commentOriginal = tl.getInput('Comment', true);
         tl.debug("commentOriginal:" + commentOriginal);
         let comment = VariableResolver.resolveVariables(commentOriginal);
         tl.debug("comment:" + comment);
-        // let auth = tl.getEndpointAuthorization('SystemVssConnection', false);
-        // let credHandler = wa.getBearerHandler(auth.parameters['AccessToken']);
-        let pat:string = tl.getVariable("AzureDevOps.Pat");
-        // let accessToken:string = tl.getVariable("System.AccessToken");
-        
-        // let credHandler = wa.getBearerHandler(accessToken);
-         let credHandler = wa.getPersonalAccessTokenHandler(pat);
-        // let credHandler = wa.getBasicHandler("", accessToken);
-        let connection = new wa.WebApi(tl.getVariable('System.TeamFoundationCollectionUri'), credHandler);
-        let client = await connection.getGitApi();
+
+        let patService = tl.getInput('AzureDevOpsService');
+        let pat:string = tl.getEndpointAuthorizationParameter(patService, 'pat', false);
+
+        let client = await this.factory.create(pat);
+
         let commentObject = <GitInterfaces.Comment> {
             content : comment            
         };
@@ -33,13 +43,15 @@ class CreatePRCommentTask {
                 commentObject
             ]
         }
-        if (process.env.SYSTEM_PULLREQUEST_PULLREQUESTID === undefined) {
+        let repositoryId = tl.getVariable('Build.Repository.ID');  
+        let pullRequestIdString = tl.getVariable('System.PullRequest.PullRequestId');
+
+        if (pullRequestIdString === undefined) {
             // If the build is not pull request, do nothing. 
             return; 
         }
-        let repositoryId:string = process.env.BUILD_REPOSITORY_ID ? process.env.BUILD_REPOSITORY_ID : "";
-        let pullRequestId:number = process.env.SYSTEM_PULLREQUEST_PULLREQUESTID ? parseInt(process.env.SYSTEM_PULLREQUEST_PULLREQUESTID) : 0;
-        // TODO: We need to supress the comment if it is already created. 
+
+        let pullRequestId:number = pullRequestIdString ? parseInt(pullRequestIdString) : 0;
         
         let currentThreads = await client.getThreads(repositoryId, pullRequestId);
         for (var currentThread of currentThreads) {
@@ -62,4 +74,5 @@ class CreatePRCommentTask {
     }
 }
 
-new CreatePRCommentTask().run();
+
+new CreatePRCommentTask(new ClientFactory()).run();
