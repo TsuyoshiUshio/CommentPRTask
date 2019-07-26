@@ -1,0 +1,72 @@
+# Node.js
+# Build a general Node.js project with npm.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+- master
+pr:
+- master
+
+pool:
+  vmImage: 'windows-2019'
+
+steps:
+- task: Npm@1
+  displayName: 'npm install'
+  inputs:
+    verbose: false
+
+- task: Npm@0
+  displayName: 'install typescript'
+  inputs:
+    arguments: 'typescript@2.8.1 --global-style'
+
+- task: Npm@0
+  displayName: 'install tfx-cli command'
+  inputs:
+    arguments: 'tfx-cli@v0.7.6 --global'
+
+- task: Npm@1
+  displayName: Test
+  inputs:
+    command: custom
+    verbose: false
+    customCommand: test
+
+- task: Npm@1
+  displayName: Report
+  inputs:
+    command: custom
+    verbose: false
+    customCommand: 'run report'
+
+- task: PublishTestResults@2
+
+  displayName: 'Publish Test Results test-results.xml'
+  inputs:
+    testResultsFiles: 'test-results.xml'
+
+- task: PublishCodeCoverageResults@1
+  displayName: 'Publish code coverage from $(System.DefaultWorkingDirectory)/**/cobertura-coverage.xml'
+  inputs:
+    codeCoverageTool: Cobertura
+    summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/cobertura-coverage.xml'
+    pathToSources: '$(System.DefaultWorkingDirectory)/Src'
+    reportDirectory: '$(System.DefaultWorkingDirectory)/.coverage_output'
+
+- task: Npm@1
+  displayName: Package
+  inputs:
+    command: custom
+    verbose: false
+    customCommand: 'run build'
+
+- task: CopyFiles@2
+  displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
+  inputs:
+    Contents: '**/*.vsix'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: drop'
