@@ -1,6 +1,6 @@
 # Create PR Comment Task
 
-![Comment](doc/images/Comment.png)
+![Comment](https://raw.githubusercontent.com/TsuyoshiUshio/CommentPRTask/master/doc/images/Comment.png)
 
 Create a pull request comment if a CI is trigged by Pull Request. 
 
@@ -10,11 +10,11 @@ Create a pull request comment if a CI is trigged by Pull Request.
 
 Install this extension to your project. Find the CreatePRCommentTask. 
 
-![CreatePRCommentTask](doc/images/CreatePRCommentTask.png)
+![CreatePRCommentTask](https://raw.githubusercontent.com/TsuyoshiUshio/CommentPRTask/master/doc/images/CreatePRCommentTask.png)
 
 ## Details
 
-![Task details](doc/images/CommentTask.png)
+![Task details](https://raw.githubusercontent.com/TsuyoshiUshio/CommentPRTask/master/doc/images/CommentTask.png)
 
 | Name | Description |
 |--------|---------------------|
@@ -28,7 +28,7 @@ The comment becomes message body of your Pull Request Comment.
 
 Put your Azure DevOps personal access token in `PAT`. The PAT requires permission to write Code. For more detail, [Pull Request Thread Comments - Create](https://docs.microsoft.com/en-us/rest/api/azure/devops/git/pull%20request%20thread%20comments/create?view=azure-devops-server-rest-5.0). `Connection name` is just a label of this service connection. `Server URL` is not used currently, however it might be good as memo which you use it for. 
 
-![ServiceConnection](doc/images/ServiceConnection.png)
+![ServiceConnection](https://raw.githubusercontent.com/TsuyoshiUshio/CommentPRTask/master/doc/images/ServiceConnection.png)
 
 ### example
 
@@ -40,5 +40,5 @@ CredScan reports a <a href="https://dev.azure.com/csedevops/DevSecOps/_workitems
 
 # Contribution
 
-For more details [here](Contribution.md).
+For more details [here](https://github.com/TsuyoshiUshio/CommentPRTask/blob/master/Contribution.md).
 

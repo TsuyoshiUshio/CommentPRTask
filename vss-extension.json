@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "create-pr-comment-task",
     "name": "Create Pull Request Comment",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "publisher": "CSE-DevOps",
     "targets": [
         {
