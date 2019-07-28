@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "create-pr-comment-task",
     "name": "Create Pull Request Comment",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "publisher": "CSE-DevOps",
     "targets": [
         {
@@ -29,6 +29,10 @@
             "path": "Task"
         }
     ],
+    "repository": {
+      "type": "git",
+      "uri": "https://github.com/TsuyoshiUshio/CommentPRTask"
+    },
     "contributions": [
         {
             "id": "service-endpoint",
