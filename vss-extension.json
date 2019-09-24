@@ -2,8 +2,11 @@
     "manifestVersion": 1,
     "id": "create-pr-comment-task",
     "name": "Create Pull Request Comment",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "publisher": "CSE-DevOps",
+    "galleryFlags": [
+      "Preview"
+    ],
     "targets": [
         {
             "id": "Microsoft.VisualStudio.Services.Cloud"
