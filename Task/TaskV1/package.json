@@ -7,8 +7,8 @@
     "compile": "tsc -p .",
     "deploy": "Script\\deploy.bat",
     "build": "Script\\build.bat",
-    "test": "tsc -p . & nyc mocha  ./Test/L0.js",
-    "report": "tsc -p . & mocha ./Test/L0.js --reporter mocha-junit-reporter"
+    "test": "tsc -p . & nyc mocha ./Test/L0.js",
+    "report": "tsc -p . & mocha ./Test/L0.js --reporter mocha-junit-reporter & nyc report"
   },
   "nyc": {
     "extension": [
@@ -17,6 +17,12 @@
     "include": [
       "Src"
     ],
+    "reporter": [
+      "text",
+      "cobertura",
+      "html"
+    ],
+    "report-dir": "./.coverage_output/coverage",
     "all": "true",
     "check-coverage": true,
     "statements": 70,
@@ -43,6 +49,7 @@
     "rewiremock": "^3.13.7",
     "sinon": "^7.3.2",
     "source-map-support": "^0.5.12",
+    "tfx-cli": "^0.7.11",
     "ts-node": "^8.3.0"
   }
 }

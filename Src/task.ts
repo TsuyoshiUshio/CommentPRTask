@@ -3,14 +3,34 @@ import * as wa from "azure-devops-node-api/WebApi";
 import * as GitInterfaces from "azure-devops-node-api/interfaces/GitInterfaces";
 import VariableResolver from './variableresolver';
 import { IGitApi, GitApi } from 'azure-devops-node-api/GitApi';
+import { IRequestHandler } from 'azure-devops-node-api/interfaces/common/VsoBaseInterfaces';
 
 export interface IClientFactory {
-    create(pat:string): Promise<IGitApi>;
+    create(): Promise<IGitApi>;
 }
 
 class ClientFactory implements IClientFactory {
-    public async create(pat:string): Promise<IGitApi> {
-        let credHandler = wa.getPersonalAccessTokenHandler(pat);
+    public async create(): Promise<IGitApi> {
+
+        let authType = tl.getInput("AuthType");
+        let credHandler: IRequestHandler;
+
+        switch (authType) {
+            case "PAT": {
+                let patService = tl.getInput('AzureDevOpsService');
+                let pat:string = tl.getEndpointAuthorizationParameter(patService, 'pat', false);
+                credHandler = wa.getPersonalAccessTokenHandler(pat);
+                break;
+            }        
+            case "PIPELINE": {
+                 let bearer = tl.getVariable('System.AccessToken');
+                 credHandler = wa.getBearerHandler(bearer);
+                 break;
+            }
+            default:
+                throw "Unknow authentification type";
+        }
+
         let connection = new wa.WebApi(tl.getVariable('System.TeamFoundationCollectionUri'), credHandler);
         return await connection.getGitApi();
     }
@@ -30,18 +50,17 @@ export class CreatePRCommentTask {
         let comment = VariableResolver.resolveVariables(commentOriginal);
         tl.debug("comment:" + comment);
 
-        let patService = tl.getInput('AzureDevOpsService');
-        let pat:string = tl.getEndpointAuthorizationParameter(patService, 'pat', false);
-
-        let client = await this.factory.create(pat);
+        let client = await this.factory.create();
 
         let commentObject = <GitInterfaces.Comment> {
-            content : comment            
+            content : comment,
+            commentType: GitInterfaces.CommentType.System    
         };
         let thread : GitInterfaces.GitPullRequestCommentThread = <GitInterfaces.GitPullRequestCommentThread> {
             comments: [
                 commentObject
-            ]
+            ],
+            status: GitInterfaces.CommentThreadStatus.ByDesign
         }
         let repositoryId = tl.getVariable('Build.Repository.ID');  
         let pullRequestIdString = tl.getVariable('System.PullRequest.PullRequestId');
