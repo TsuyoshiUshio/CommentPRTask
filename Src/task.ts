@@ -36,12 +36,13 @@ export class CreatePRCommentTask {
         let client = await this.factory.create(pat);
 
         let commentObject = <GitInterfaces.Comment> {
-            content : comment            
+            content : comment
         };
         let thread : GitInterfaces.GitPullRequestCommentThread = <GitInterfaces.GitPullRequestCommentThread> {
             comments: [
                 commentObject
-            ]
+            ],
+            status: GitInterfaces.CommentThreadStatus.Active
         }
         let repositoryId = tl.getVariable('Build.Repository.ID');  
         let pullRequestIdString = tl.getVariable('System.PullRequest.PullRequestId');
