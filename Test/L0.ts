@@ -33,7 +33,7 @@ class ClientFactoryMock implements IClientFactory {
   createdPullRequestId: number = 0;
   expectedThreds: GitInterfaces.GitPullRequestCommentThread[] = [];
   
-  public async create(pat:string): Promise<IGitApi> {
+  public async create(): Promise<IGitApi> {
     let gitApiStub = <IGitApi> {
       getThreads: (repositoryId: string, pullRequestId: number, project?: string, iteration?: number, baseIteration?: number): Promise<GitInterfaces.GitPullRequestCommentThread[]> => {
         return new Promise<GitInterfaces.GitPullRequestCommentThread[]>(

@@ -1,0 +1,58 @@
+{
+    "id": "0fef745c-60e7-4f36-8541-e4d9ce6729b1",
+    "name": "CreatePRCommentTask",
+    "friendlyName": "Create PR comment task",
+    "description": "Create a Pull Request comment from pipeline",
+    "helpMarkDown": "",
+    "category": "Utility",
+    "author": "msa48",
+    "preview": true,
+    "version": {
+        "Major": 2,
+        "Minor": 0,
+        "Patch": 0
+    },
+    "instanceNameFormat": "Create PR Comment",
+    "inputs": [
+        {
+            "name": "AuthType",
+            "lable": "Authentification type",
+            "type": "pickList",
+            "defaultValue": "PIPELINE",
+            "required": true,
+            "helpMarkDown": "Use personal or system authorization token",
+            "properties": {
+                "editableOptions": false
+            },
+            "options": {
+                "PAT": "Personal access token",
+                "PIPELINE": "Pipline access token"
+            }
+
+        },
+        {
+            "name": "AzureDevOpsService",
+            "type": "connectedService:azuredevops",
+            "label": "AzureDevOps PAT",
+            "required": true,
+            "helpMarkDown": "Select the AzureDevOps PAT.",
+            "visibleRule": "AuthType = PAT"
+        },
+        {
+            "name": "Comment",
+            "type": "multiLine",
+            "label": "Comment",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "Comment which is created as an pull request comment."
+        }
+    ],
+    "execution": {
+        "Node": {
+            "target": "task.js"
+        }
+    }, 
+    "messages": {
+        "FailToCreateComment": "Failed to create a comment. For more details: %s"
+    }
+}

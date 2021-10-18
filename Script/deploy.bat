@@ -1,10 +1,14 @@
+@echo off
 call Script\compile.bat
 
-copy Src\*.js Task
-copy package.json Task
+rmdir Deploy /S /Q
+mkdir Deploy
 
-IF EXIST Task\node_modules (
-    RD /s /q Task\node_modules
-)
+xcopy Task Deploy\Task\ /E /Y /Q
+FOR /D %%f IN (Deploy\Task\*) DO copy Src\*.js %%f /Y
 
-xcopy /Y /I /S node_modules Task\\node_modules
+xcopy images Deploy\images\ /E /Y /Q
+copy readme.md Deploy
+copy vss-extension.json Deploy
+
+FOR /D %%f IN (Deploy\Task\*) DO (pushd %%f & call npm install --production & popd)
