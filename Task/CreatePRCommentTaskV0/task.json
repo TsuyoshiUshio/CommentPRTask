@@ -1,22 +1,22 @@
 {
-    "id": "fa2d9a7e-ffb2-4346-9ba6-82aeecc142dd",
+    "id": "0fef745c-60e7-4f36-8541-e4d9ce6729b1",
     "name": "CreatePRCommentTask",
     "friendlyName": "Create PR comment task",
     "description": "Create a Pull Request comment from pipeline",
-    "helpMarkDown": "",
+    "helpMarkDown": "https://github.com/microsoft/CSEDevOps/tree/main/CreatePRCommentTask",
     "category": "Utility",
     "author": "CSE-DevOps",
     "preview": true,
     "version": {
         "Major": 0,
         "Minor": 1,
-        "Patch": 14
+        "Patch": 15
     },
     "instanceNameFormat": "Create PR Comment",
     "inputs": [
         {
             "name": "AzureDevOpsService",
-            "type": "connectedService:azuredevopsdaporodev",
+            "type": "connectedService:azuredevops",
             "label": "Azure DevOps PAT",
             "required": true,
             "helpMarkDown": "Select the Azure DevOps PAT"

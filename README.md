@@ -1,8 +1,8 @@
 # Create PR Comment Task
 
-![Comment](https://raw.githubusercontent.com/TsuyoshiUshio/CommentPRTask/master/doc/images/Comment.png)
+![Comment](https://raw.githubusercontent.com/microsoft/CSEDevOps/main/CreatePRCommentTask/docs/images/Comment.png)
 
-Create a pull request comment if a CI is trigged by Pull Request.
+Create a Pull Request comment if a CI is triggered by Pull Request.
 
 ## How to use
 
@@ -10,11 +10,11 @@ Create a pull request comment if a CI is trigged by Pull Request.
 
 Install this extension to your project. Find the CreatePRCommentTask.
 
-![CreatePRCommentTask](https://raw.githubusercontent.com/TsuyoshiUshio/CommentPRTask/master/doc/images/CreatePRCommentTask.png)
+![CreatePRCommentTask](https://raw.githubusercontent.com/microsoft/CSEDevOps/main/CreatePRCommentTask/docs/images/CreatePRCommentTask.png)
 
 ### Details
 
-![Task details](https://raw.githubusercontent.com/TsuyoshiUshio/CommentPRTask/master/doc/images/CommentTask.png)
+![Task details](https://raw.githubusercontent.com/microsoft/CSEDevOps/main/CreatePRCommentTask/docs/images/CommentTask.png)
 
 | Name             | Description                                                                                      |
 | ---------------- | ------------------------------------------------------------------------------------------------ |
@@ -26,18 +26,18 @@ The comment becomes message body of your Pull Request Comment.
 
 ### Personal Access Token Service Connection
 
-Put your Azure DevOps personal access token in `PAT`. The PAT requires permission to write Code. For more detail, [Pull Request Thread Comments - Create](https://docs.microsoft.com/en-us/rest/api/azure/devops/git/pull-request-thread-comments/create?view=azure-devops-rest-6.1). `Connection name` is just a label of this service connection. `Server URL` is not used currently, however it might be good as memo which you use it for.
+Put your Azure DevOps Personal Access Token in `PAT`. The PAT requires permission to write Code. For more detail, [Pull Request Thread Comments - Create](https://docs.microsoft.com/en-us/rest/api/azure/devops/git/pull-request-thread-comments/create?view=azure-devops-rest-6.1). `Connection name` is just a label of this service connection. `Server URL` is not used currently, however it might be good as memo which you use it for.
 
-![ServiceConnection](https://raw.githubusercontent.com/TsuyoshiUshio/CommentPRTask/master/doc/images/ServiceConnection.png)
+![ServiceConnection](https://raw.githubusercontent.com/microsoft/CSEDevOps/main/CreatePRCommentTask/docs/images/ServiceConnection.png)
 
 ### Example
 
 Sample of the Comment.
 
 ```text
-CredScan reports a <a href="https://dev.azure.com/csedevops/DevSecOps/_workitems/edit/$(CWI.Id)">Bug</a> created. Please review it.
+CredScan reports a <a href="https://dev.azure.com/csedevops/DevSecOps/_workitems/edit/$(CWI.Id)">Bug</a>. Please review it.
 ```
 
 ## Contribution
 
-For more details [here](https://github.com/TsuyoshiUshio/CommentPRTask/blob/master/Contribution.md).
+For more details [here](https://github.com/microsoft/CSEDevOps/blob/main/CreatePRCommentTask/CONTRIBUTION.md).

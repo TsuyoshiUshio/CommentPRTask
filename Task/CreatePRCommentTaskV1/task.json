@@ -1,9 +1,9 @@
 {
-    "id": "fa2d9a7e-ffb2-4346-9ba6-82aeecc142dd",
+    "id": "0fef745c-60e7-4f36-8541-e4d9ce6729b1",
     "name": "CreatePRCommentTask",
     "friendlyName": "Create PR comment task",
     "description": "Create a Pull Request comment from pipeline",
-    "helpMarkDown": "",
+    "helpMarkDown": "https://github.com/microsoft/CSEDevOps/tree/main/CreatePRCommentTask",
     "category": "Utility",
     "author": "CSE-DevOps",
     "preview": true,
@@ -25,18 +25,9 @@
                 "editableOptions": false
             },
             "options": {
-                "patService": "Personal Access Token (Service Endpoint)",
-                "pat": "Personal Access Token",
-                "system": "System Access Token"
+                "system": "System Access Token",
+                "pat": "Personal Access Token"
             }
-        },
-        {
-            "name": "AzureDevOpsService",
-            "type": "connectedService:azuredevopsdaporodev",
-            "label": "Azure DevOps PAT",
-            "required": true,
-            "helpMarkDown": "Select the Azure DevOps PAT",
-            "visibleRule": "AuthType = patService"
         },
         {
             "name": "AzureDevOpsPat",
@@ -51,7 +42,7 @@
             "type": "multiLine",
             "label": "Comment",
             "required": true,
-            "helpMarkDown": "Comment which is created as an pull request comment."
+            "helpMarkDown": "Comment which is created as an pull request comment"
         }
     ],
     "execution": {

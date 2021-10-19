@@ -4,6 +4,7 @@ import * as GitInterfaces from 'azure-devops-node-api/interfaces/GitInterfaces'
 import VariableResolver from './variableresolver'
 import { IGitApi, GitApi } from 'azure-devops-node-api/GitApi'
 import path from 'path'
+import { IRequestHandler } from 'azure-devops-node-api/interfaces/common/VsoBaseInterfaces'
 
 export interface IClientFactory {
   create: () => Promise<IGitApi>
@@ -12,27 +13,29 @@ export interface IClientFactory {
 class ClientFactory implements IClientFactory {
   public async create (): Promise<IGitApi> {
     const authType = tl.getInput('AuthType') || 'patService' // default for V0
-    var token: string = undefined!
+    let credHandler: IRequestHandler
 
     switch (authType) {
       case 'patService': {
         const patService = tl.getInput('AzureDevOpsService')!
-        token = tl.getEndpointAuthorizationParameter(patService, 'pat', false)!
+        const pat = tl.getEndpointAuthorizationParameter(patService, 'pat', false)!
+        credHandler = wa.getPersonalAccessTokenHandler(pat)
         break
       }
       case 'pat': {
-        token = tl.getInput('AzureDevOpsPat')!
+        const pat = tl.getInput('AzureDevOpsPat')!
+        credHandler = wa.getPersonalAccessTokenHandler(pat)
         break
       }
       case 'system': {
-        token = tl.getVariable('System.AccessToken')!
+        const token = tl.getVariable('System.AccessToken')!
+        credHandler = wa.getBearerHandler(token)
         break
       }
       default:
         throw 'Unknown authentication type'
     }
 
-    const credHandler = wa.getBearerHandler(token)
     const connection = new wa.WebApi(tl.getVariable('System.TeamFoundationCollectionUri')!, credHandler)
     return await connection.getGitApi()
   }
