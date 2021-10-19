@@ -3,7 +3,7 @@
     "id": "create-pr-comment-task",
     "name": "Create Pull Request Comment",
     "publisher": "CSE-DevOps",
-    "version": "0.1.10",
+    "version": "0.1.0",
     "galleryFlags": [
         "Public",
         "Preview"
